@@ -14,7 +14,11 @@ const userSchema = new Schema({
   birthday: Date,
   avatar: String,
   address: String,
-  userFollow: [String],
+  userFollow: [
+    {
+      type: String
+    }
+  ],
   experiencePoint: Number,
   level: Number,
   status: Boolean

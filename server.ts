@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const express = require('express');
 const bodyParser = require('body-parser');
-const routes = require('./Routes/Auth.route.ts');
+const routes = require('./Routes/Index.route.ts');
 import 'dotenv/config';
 
 const app = express();

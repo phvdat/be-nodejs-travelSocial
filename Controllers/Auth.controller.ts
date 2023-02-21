@@ -18,6 +18,15 @@ const Register = async (req: any, res: any) => {
 };
 const GetUserInfo = async (req: any, res: any) => {
   try {
+    const userId = req.params['id'];
+    const user = await User_Model.findById(userId);
+    if (!user) {
+      return;
+    }
+    return res.status(200).json({
+      payload: user,
+      message: 'success'
+    });
   } catch (error) {}
 };
 
