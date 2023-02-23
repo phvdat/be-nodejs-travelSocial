@@ -4,21 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./server.ts"
+    "start": "nodemon ./server.js"
   },
   "author": "phamvandat.hcmut@gmail.com",
   "license": "ISC",
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
-    "typescript": "^4.9.5"
-  },
   "dependencies": {
-    "@types/node": "^18.13.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.2",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "redis": "^4.6.4"
   }
 }

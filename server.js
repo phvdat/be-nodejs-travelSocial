@@ -1,13 +1,13 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
-const routes = require('./Routes/Index.route.ts');
-import 'dotenv/config';
+const routes = require('./Routes/Index.route.js');
+require('dotenv/config');
 
 const app = express();
 
 mongoose.set('strictQuery', false);
-mongoose.connect(process.env.MONGODB_URI as string);
+mongoose.connect(process.env.MONGODB_URI);
 
 app.use(express.json());
 app.use(bodyParser.json());
