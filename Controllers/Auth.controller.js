@@ -5,12 +5,8 @@ const jwtHelper = require('../Helpers/jwt.helper');
 const redis = require('redis')
 dotenv.config()
 
-const client = redis.createClient({
-	url: process.env.REDIS_URL,
-	socket: {
-		tls: true,
-		servername: process.env.REDIS_HOST,
-	},
+const redisClient = redis.createClient({
+	url: process.env.REDIS_URL
 })
 
 const Register = async (req, res) => {
@@ -68,8 +64,13 @@ const Login = async (req, res) => {
 			refreshTokenLife
 		);
 
-		await client.connect()
-		await client.set(refreshToken, refreshToken + accessToken)
+		redisClient.on('error', err => console.log('Redis Client Error', err));
+		await redisClient.connect();
+		// await redisClient.set('refreshToken', refreshToken)
+		await redisClient.hSet('refreshToken', refreshToken, refreshToken)
+		const listRefresh = await redisClient.hVals('refreshToken');
+		console.log(listRefresh);
+		await redisClient.disconnect();
 		return res.status(200).json({ payload: user, accessToken, refreshToken });
 	} catch (error) {
 		return res.status(500).json(error);
@@ -77,8 +78,11 @@ const Login = async (req, res) => {
 };
 
 const RefreshToken = async (req, res) => {
+	await redisClient.connect();
+
+	const listRefresh = await redisClient.get('refreshToken');
 	const refreshTokenFromClient = req.body.refreshToken
-	if (refreshTokenFromClient && await client.get[refreshTokenFromClient]) {
+	if (refreshTokenFromClient && await redisClient.get[refreshTokenFromClient]) {
 		try {
 			const decoded = await jwtHelper.verifyToken(refreshTokenFromClient, refreshTokenSecret)
 			const user = decoded.data
